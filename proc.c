@@ -80,7 +80,7 @@ allocproc(void)
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     if(p->state == UNUSED)
-      goto found;
+      goto found;   //si es igual a unused, hace lo que sale en la etiqueta found
 
   release(&ptable.lock);
   return 0;
@@ -494,6 +494,18 @@ kill(int pid)
   }
   release(&ptable.lock);
   return -1;
+}
+
+int
+getprocs(void)          //FUNCION NUEVA
+{
+	int contador = 0;
+	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+		if (p->state != UNUSED || ZOMBIE) {
+			contador = contador + 1;
+			return contador;
+		}
+	}
 }
 
 //PAGEBREAK: 36
