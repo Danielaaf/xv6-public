@@ -1,0 +1,14 @@
+language: c
+script: make && make fs.img
+deploy:
+  provider: releases
+  api_key:
+    secure: p5MbKMdrehe3T5VmBNfDzLtjPrYkvC7dhSf2nwDxLV72EYc6NKwG3AciJHAUNgtrNdMv0P1xAFyLfpgaopHtKE+y4/SJ6OtPJS78Mt6qbRPPL6FzQXH0yXuqbp6JV0Kf0h2h5BBJbdAPiG1SQ3a9kCCtUYV64h2kc98aYPtG0MDwbf9pCTZJ+evSkW/lZ0gzRuOi0t9SaROGJP75FjTWcat8jzhyH9VIcQnU2xwH32UZGRRJsJFWxvoFrmqd/px1dJMXNkmIIr+/p09Lexcsy+4QvPyqijXbohhPA/vVyt1PS/+didST8IQuPK4VksD0ffhaD6mw1uCt7pU0WDvjZsypjiQ1ssycBg92VV/euW7gsdzOvBaJtJSpOETgKTHxfHDVZi7yvd2P6qQmyNUUJseopSM8989ftQJGXBdmo8c4Tdd/fcIZUI2WiqH2AZmX8ZMSI0PckV314DypmV85czNaktv+Q5ZTDYO70bxfWGtEq22nTFyrpijgBMH8hsApakryTHrX+cxf52+rLSRdgQGC/XEZeMBOYdMQ4FXuxQ2epfQU9z8Auy/W/CgSUMrn89VqNrKkoDJHnCupdTfGmk+5nLO0yoO8H7VK6BM34LSsUmTD0NG3XjV0Gcyf85VuEi8ogRCG411KM36BSKIstjxgcivU+g+PhUyct5Zo7J0=
+  file: 
+    - fs.img
+    - xv6.img
+  skip_cleanup: true
+  on:
+    repo: Danielaaf/xv6-public
+    branch: heads/master
+    tags: true
