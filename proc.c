@@ -500,12 +500,14 @@ int
 getprocs(void)          //FUNCION NUEVA
 {
 	int contador = 0;
-	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
-		if (p->state != UNUSED || ZOMBIE) {
-			contador = contador + 1;
-			return contador;
+	struct proc *p;
+
+	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+		if(!(p->state == UNUSED || ZOMBIE)) {
+			contador++;
 		}
 	}
+	return contador;
 }
 
 //PAGEBREAK: 36
