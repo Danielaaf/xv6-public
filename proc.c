@@ -499,16 +499,17 @@ kill(int pid)
 int
 getprocs(void)          //FUNCION NUEVA
 {
-	int contador = 0;
-	struct proc *p;
+		struct proc *p;
+		int count = 0;
 
-	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
-		if(!(p->state == UNUSED || ZOMBIE)) {
-			contador++;
-		}
-	}
-	return contador;
+		acquire(&ptable.lock);
+		for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+			if (p->state != UNUSED)
+				++count;
+		release(&ptable.lock);
+		return count;
 }
+
 
 //PAGEBREAK: 36
 // Print a process listing to console.  For debugging.

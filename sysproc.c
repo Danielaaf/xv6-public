@@ -42,7 +42,8 @@ sys_getpid(void)
   return myproc()->pid;
 }
 
-int sys_getprocs(void)          //aqui llamamos la funcion
+int
+sys_getprocs(void)          
 {
 	return getprocs();
 }
