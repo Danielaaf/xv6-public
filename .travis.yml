@@ -10,5 +10,5 @@ deploy:
   skip_cleanup: true
   on:
     repo: Danielaaf/xv6-public
-    branch: heads/master
+    branch: project_1
     tags: true
