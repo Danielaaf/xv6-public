@@ -501,11 +501,12 @@ getprocs(void)          //FUNCION NUEVA
 {
 		struct proc *p;
 		int count = 0;
-
 		acquire(&ptable.lock);
-		for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-			if (p->state != UNUSED)
-				++count;
+		for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+			if (p->state != UNUSED || p->state != ZOMBIE) {
+				count += 1;
+			}
+		}
 		release(&ptable.lock);
 		return count;
 }
