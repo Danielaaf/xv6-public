@@ -387,9 +387,11 @@ scheduler(void)
 				p->state = RUNNING;
 				swtch(&(mycpu()->scheduler), p->context);
 				switchkvm();
+
 				// Process is done running for now.
 				// It should have changed its p->state before coming back.
 				curproc == 0;
+				break;
 			}
 		}
 		release(&ptable.lock);
