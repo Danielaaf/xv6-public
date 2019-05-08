@@ -337,7 +337,7 @@ lotteryTotal(void) {
 			total_tickets += p->tickets;
 		}
 	}
-	return total_tickets
+	return total_tickets;
 }
 
 //PAGEBREAK: 42
@@ -354,9 +354,6 @@ scheduler(void)
 	struct proc *p;
 	int total_tickets, runval = 0;
 	int chosen;
-	struct cpu *c = mycpu();
-	c->proc = 0;
-
 	for (;;) {
 		runval++;
 		// Enable interrupts on this processor.
@@ -381,8 +378,8 @@ scheduler(void)
 				// to release ptable.lock and then reacquire it
 				// before jumping back to us.
 				cprintf("El Proceso %d esta en la CPU ahora.\n", p->pid);
-				proc = p
-				switchuvm(p);
+				proc = p;
+				switchuvm();
 				// Process is done running for now.
 				// It should have changed its p->state before coming back.
 				proc = 0;
