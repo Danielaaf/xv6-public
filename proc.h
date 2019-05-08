@@ -1,4 +1,8 @@
 // Per-CPU state
+#define MAX_TICKETS 15
+#define INITIAL_TICKETS 10
+
+
 struct cpu {
   uchar apicid;                // Local APIC ID
   struct context *scheduler;   // swtch() here to enter scheduler
@@ -7,7 +11,8 @@ struct cpu {
   volatile uint started;       // Has the CPU started?
   int ncli;                    // Depth of pushcli nesting.
   int intena;                  // Were interrupts enabled before pushcli?
-  struct proc *proc;           // The process running on this cpu or null
+  struct proc *proc;			// The process running on this cpu or null
+  struct cpu *cpu;
 };
 
 extern struct cpu cpus[NCPU];
@@ -49,6 +54,7 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  int tickets;
 };
 
 // Process memory is laid out contiguously, low addresses first:

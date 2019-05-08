@@ -138,6 +138,7 @@ userinit(void)
   p->tf->eflags = FL_IF;
   p->tf->esp = PGSIZE;
   p->tf->eip = 0;  // beginning of initcode.S
+  p->tickets = MAX_TICKETS;
 
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
@@ -178,7 +179,7 @@ growproc(int n)
 // Sets up stack to return as if from system call.
 // Caller must set state of returned proc to RUNNABLE.
 int
-fork(void)
+fork(int numtickets)
 {
   int i, pid;
   struct proc *np;
@@ -200,6 +201,13 @@ fork(void)
   np->parent = curproc;
   *np->tf = *curproc->tf;
 
+  if (numtickets != 0) {
+	  if (numtickets > MAX_TICKETS) np->tickets = MAX_TICKETS;
+	  np->tickets = numtickets;
+  }
+
+  np->tickets = INITIAL_TICKETS;
+
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
 
@@ -211,6 +219,8 @@ fork(void)
   safestrcpy(np->name, curproc->name, sizeof(curproc->name));
 
   pid = np->pid;
+
+  cprintf("PROCESO CREADO - PID: %d TICKETS: %d\n", np->pid, np->tickets);
 
   acquire(&ptable.lock);
 
@@ -311,6 +321,25 @@ wait(void)
   }
 }
 
+static
+unsigned long
+lcg_rand(unsigned long a) {
+	return (a * 279470273UL) % 4294967291UL;
+}
+
+int
+lotteryTotal(void) {
+	struct proc *p;
+	int total_tickets = 0;
+
+	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+		if (p->state == RUNNABLE) {
+			total_tickets += p->tickets;
+		}
+	}
+	return total_tickets
+}
+
 //PAGEBREAK: 42
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
@@ -322,38 +351,47 @@ wait(void)
 void
 scheduler(void)
 {
-  struct proc *p;
-  struct cpu *c = mycpu();
-  c->proc = 0;
-  
-  for(;;){
-    // Enable interrupts on this processor.
-    sti();
+	struct proc *p;
+	int total_tickets, runval = 0;
+	int chosen;
+	struct cpu *c = mycpu();
+	c->proc = 0;
 
-    // Loop over process table looking for process to run.
-    acquire(&ptable.lock);
-    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->state != RUNNABLE)
-        continue;
+	for (;;) {
+		runval++;
+		// Enable interrupts on this processor.
+		sti();
 
-      // Switch to chosen process.  It is the process's job
-      // to release ptable.lock and then reacquire it
-      // before jumping back to us.
-      c->proc = p;
-      switchuvm(p);
-      p->state = RUNNING;
-
-      swtch(&(c->scheduler), p->context);
-      switchkvm();
-
-      // Process is done running for now.
-      // It should have changed its p->state before coming back.
-      c->proc = 0;
-    }
-    release(&ptable.lock);
-
-  }
+		// Loop over process table looking for process to run.
+		acquire(&ptable.lock);
+		total_tickets = lotteryTotal();
+		if (total_tickets > 0) {
+			chosen = lcg_rand(lcg_rand(runval*ticks));
+			if (total_tickets < chosen) {
+				chosen %= total_tickets;
+			}
+			for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+				if (p->state == RUNNABLE) {
+					chosen -= p->tickets;
+				}
+				if (p->state != RUNNABLE || chosen >= 0) {
+					continue;
+				}
+				// Switch to chosen process.  It is the process's job
+				// to release ptable.lock and then reacquire it
+				// before jumping back to us.
+				cprintf("El Proceso %d esta en la CPU ahora.\n", p->pid);
+				proc = p
+				switchuvm(p);
+				// Process is done running for now.
+				// It should have changed its p->state before coming back.
+				proc = 0;
+			}
+		}
+		release(&ptable.lock);
+	}
 }
+
 
 // Enter scheduler.  Must hold only ptable.lock
 // and have changed proc->state. Saves and restores
@@ -539,7 +577,7 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    cprintf("%d %s %s", p->pid, state, p->name);
+    cprintf("%d %s %s %d", p->pid, state, p->name, p->tickets);
     if(p->state == SLEEPING){
       getcallerpcs((uint*)p->context->ebp+2, pc);
       for(i=0; i<10 && pc[i] != 0; i++)
