@@ -352,6 +352,7 @@ void
 scheduler(void)
 {
 	struct proc *p;
+	struct proc *curproc = myproc();
 	int total_tickets, runval = 0;
 	int chosen;
 	for (;;) {
@@ -381,14 +382,14 @@ scheduler(void)
 				// before jumping back to us.
 				cprintf("El Proceso %d esta en la CPU ahora.\n", p->pid);
 		
-				myproc() = p;
+				curproc == p;
 				switchuvm(p);
 				p->state = RUNNING;
 				swtch(&(mycpu()->scheduler), p->context);
 				switchkvm();
 				// Process is done running for now.
 				// It should have changed its p->state before coming back.
-				myproc() = 0;
+				curproc == 0;
 			}
 		}
 		release(&ptable.lock);
