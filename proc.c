@@ -379,7 +379,10 @@ scheduler(void)
 				// before jumping back to us.
 				cprintf("El Proceso %d esta en la CPU ahora.\n", p->pid);
 				proc = p;
-				switchuvm();
+				switchuvm(p);
+				p->state = RUNNING;
+				swtch(&cpu->scheduler, p->context);
+				switchkvm();
 				// Process is done running for now.
 				// It should have changed its p->state before coming back.
 				proc = 0;
