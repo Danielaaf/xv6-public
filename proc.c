@@ -385,7 +385,7 @@ scheduler(void)
 				curproc == p;
 				switchuvm(p);
 				p->state = RUNNING;
-				swtch(&(mycpu()->scheduler), p->context);
+				swtch(&(mycpu()->scheduler), curproc->context);
 				switchkvm();
 
 				// Process is done running for now.
