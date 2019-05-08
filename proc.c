@@ -352,8 +352,6 @@ void
 scheduler(void)
 {
 	struct proc *p;
-	struct cpu *c;
-	struct proc *curproc;
 	int total_tickets, runval = 0;
 	int chosen;
 	for (;;) {
@@ -382,16 +380,15 @@ scheduler(void)
 				// to release ptable.lock and then reacquire it
 				// before jumping back to us.
 				cprintf("El Proceso %d esta en la CPU ahora.\n", p->pid);
-				curproc = myproc();
-				curproc = p;
+		
+				myproc() = p;
 				switchuvm(p);
 				p->state = RUNNING;
-				c = mycpu();
-				swtch(c->scheduler, p->context);
+				swtch(&(mycpu()->scheduler), p->context);
 				switchkvm();
 				// Process is done running for now.
 				// It should have changed its p->state before coming back.
-				curproc = 0;
+				myproc() = 0;
 			}
 		}
 		release(&ptable.lock);
