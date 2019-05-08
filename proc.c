@@ -352,6 +352,7 @@ void
 scheduler(void)
 {
 	struct proc *p;
+	struct proc *curproc = myproc();
 	int total_tickets, runval = 0;
 	int chosen;
 	for (;;) {
@@ -362,6 +363,8 @@ scheduler(void)
 		// Loop over process table looking for process to run.
 		acquire(&ptable.lock);
 		total_tickets = lotteryTotal();
+
+
 		if (total_tickets > 0) {
 			chosen = lcg_rand(lcg_rand(runval*ticks));
 			if (total_tickets < chosen) {
@@ -378,14 +381,14 @@ scheduler(void)
 				// to release ptable.lock and then reacquire it
 				// before jumping back to us.
 				cprintf("El Proceso %d esta en la CPU ahora.\n", p->pid);
-				proc = p;
+				curproc = p;
 				switchuvm(p);
 				p->state = RUNNING;
-				swtch(&cpu->scheduler, p->context);
+				swtch(mycpu()->scheduler, p->context);
 				switchkvm();
 				// Process is done running for now.
 				// It should have changed its p->state before coming back.
-				proc = 0;
+				curproc = 0;
 			}
 		}
 		release(&ptable.lock);
