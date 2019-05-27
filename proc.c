@@ -376,7 +376,7 @@ scheduler(void)
       switchuvm(p);
       p->state = RUNNING;
 
-	  cprintf("El proceso %d esta en la CPU\n", p->pid);
+	  cprintf("El proceso ganador tiene %d tickets\n", p->tickets);
 
       swtch(&(c->scheduler), p->context);
       switchkvm();
