@@ -358,7 +358,7 @@ scheduler(void)
 	long contador = 0;
 
 	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
-		if (p->state != RUNNABLE || chosen>=0)
+		if (p->state != RUNNABLE)
 			continue;
 		contador = contador + p->tickets;
 
