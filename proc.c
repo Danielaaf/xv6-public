@@ -365,7 +365,7 @@ scheduler(void)
 		if (contador < chosen)
 			continue;
 
-		cprintf("El proceso %d esta en la CPU\n", p->pid);
+		
 	
 
       // Switch to chosen process.  It is the process's job
@@ -383,7 +383,7 @@ scheduler(void)
       c->proc = 0;
     }
     release(&ptable.lock);
-
+	cprintf("El proceso %d esta en la CPU\n", p->pid);
   }
 }
 
