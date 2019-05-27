@@ -313,7 +313,7 @@ wait(void)
 
 unsigned long randstate = 1;
 unsigned int
-rand() {
+random() {
 	randstate = randstate * 1664525 * 1013904223;
 	return randstate;
 }
@@ -332,7 +332,7 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
-  int totaltickets = 1000;
+  int total_tickets = 1000;
   
   for(;;){
     // Enable interrupts on this processor.
@@ -350,20 +350,22 @@ scheduler(void)
 	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
 		  if (p->state != RUNNABLE)
 			  continue;
-		  p->tickets = totaltickets / allproc;
+		  p->tickets = total_tickets / allproc;
 		
 	}
 
-	int chosen = rand() % totaltickets;
+	int chosen = random() % total_tickets;
 	long contador = 0;
 
 	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
-		if (p->state != RUNNABLE)
+		if (p->state != RUNNABLE || chosen>=0)
 			continue;
 		contador = contador + p->tickets;
 
 		if (contador < chosen)
 			continue;
+
+		cprintf("El proceso %d esta en la CPU\n", p->pid);
 	
 
       // Switch to chosen process.  It is the process's job
