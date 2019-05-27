@@ -364,7 +364,8 @@ scheduler(void)
 
 		if (contador < chosen)
 			continue;
-
+			
+		
 		
 	
 
@@ -375,6 +376,8 @@ scheduler(void)
       switchuvm(p);
       p->state = RUNNING;
 
+	  cprintf("El proceso %d esta en la CPU\n", p->pid);
+
       swtch(&(c->scheduler), p->context);
       switchkvm();
 
@@ -383,8 +386,9 @@ scheduler(void)
       c->proc = 0;
     }
     release(&ptable.lock);
-	cprintf("El proceso %d esta en la CPU\n", p->pid);
+	
   }
+  
 }
 
 // Enter scheduler.  Must hold only ptable.lock
