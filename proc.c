@@ -376,7 +376,7 @@ scheduler(void)
       switchuvm(p);
       p->state = RUNNING;
 
-	  cprintf("El proceso %d esta en la CPU\n", p->pid);
+	  
 
       swtch(&(c->scheduler), p->context);
       switchkvm();
