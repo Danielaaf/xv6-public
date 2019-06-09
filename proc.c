@@ -222,40 +222,35 @@ fork(void)
   return pid;
 }
 int
-addr_translate(char* virtual_address) {
+addr_translate(void* vaddr) {
 	struct proc *curproc = myproc();
-	
-	int physical_address;
+	cprintf("vaddr = %p\n", vaddr);
 	int paddr;
-	pgdir = curproc->pgdir
-
-	
-	pde_t *pde;
 	pde_t *pgdir;
+	pte_t *pgtab;
 	pde_t *pde;
-	pde_t *pte;
-	pde_t *pgtab;
+	pte_t *pte;
 
-	pde = &pgdir[PDX(virtual_address)];
+	pgdir = (pde_t*)cpu->ts.cr3;
+	cprintf("page directory base is: %p\n", cpu->ts.cr3);
+	pde = &curproc->pgdir[PDX(vaddr)];
 	if (*pde & PTE_P) {
 		pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
 	}
 	else {
-		cprintf("\n PTE NO ESTA! - Invalid Virtual Address\n");
+		cprintf("pde = %d\n", *pde);
+		cprintf("PTE_P = %d\n", PTE_P);
+		cprintf("pte not present\n");
 		return -1;
 	}
-	cprintf("\n -------- \n");
-	cprintf(" Page Directory Entry (PDE): %d\n", *pde);
-	cprintf(" PTE_P : %d\n", PTE_P);
-	cprintf("\n -------- \n");
-
-	pte_t *pte;
-	pte = &pgtab[PTX(virtual_address)];
-	physical_address=(char*)V2P(PTE_ADDR(*pte));
-
-	cprintf(" --PHYSICAL ADDRESS -- %d\n", physical_address);
+	pte = &pgtab[PTX(vaddr)];
+	paddr = PTE_ADDR(*pte);
+	cprintf("the virtual address is %p\n", vaddr);
+	cprintf("the physical address is %d\n", paddr);
 
 	return 0;
+
+	}
 }
 // Exit the current process.  Does not return.
 // An exited process remains in the zombie state
