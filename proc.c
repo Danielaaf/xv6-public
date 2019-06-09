@@ -226,7 +226,7 @@ addr_translate(void* vaddr) {
 	struct proc *curproc = myproc();
 	cprintf("vaddr = %p\n", vaddr);
 	int paddr;
-	pde_t *pgdir;
+//	pde_t *pgdir;
 	pte_t *pgtab;
 	pde_t *pde;
 	pte_t *pte;
