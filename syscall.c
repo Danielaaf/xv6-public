@@ -103,9 +103,10 @@ extern int sys_unlink(void);
 extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
-extern int sys_getprocs(void);     // sys get procs
+extern int sys_getprocs(void); // sys get procs
+extern int sys_addr_translation(char *s);
 
-static int (*syscalls[])(void) = {
+static int(*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
 [SYS_exit]    sys_exit,
 [SYS_wait]    sys_wait,
@@ -128,6 +129,7 @@ static int (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_getprocs] sys_getprocs,  //sys getprocs
+[SYS_addr_translation] sys_addr_translation,
 };
 
 void

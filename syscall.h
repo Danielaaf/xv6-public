@@ -21,3 +21,4 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_getprocs 22     // le damos un numero de system call
+#define SYS_addr_translation 23

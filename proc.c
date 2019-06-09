@@ -220,7 +220,33 @@ fork(void)
 
   return pid;
 }
+int
+addr_translate(char* virtual_address) {
+	struct proc *curproc = myproc();
+	int physical_address;
+	curproc->pgdir;
+	pde_t *pgdir, *pgtab, *pde;
 
+	pde = &pgdir[PDX(virtual_address)];
+	if (*pde & PTE_P) {
+		pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
+	}
+	else {
+		cprintf("\n PTE NO ESTA! - Invalid Virtual Address\n");
+		return -1;
+	}
+	cprintf("\n -------- \n");
+	cprintf(" Page Directory Entry (PDE): %d\n", *pde);
+	cprintf(" PTE_P : %d\n", PTE_P);
+	cprintf("\n -------- \n");
+
+	pte_t *pte;
+	pte = &pgtab[PTX(virtual_address)];
+	physical_address = (char*)V2P(PTE_ADDR(*pte));
+
+	cprintf(" --PHYSICAL ADDRESS -- %d\n", physical_address);
+	return 0;
+}
 // Exit the current process.  Does not return.
 // An exited process remains in the zombie state
 // until its parent calls wait() to find out it exited.
