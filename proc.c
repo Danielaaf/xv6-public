@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "elf.h"  //yo lo puse
 
 struct {
   struct spinlock lock;
@@ -223,9 +224,17 @@ fork(void)
 int
 addr_translate(char* virtual_address) {
 	struct proc *curproc = myproc();
+	
 	int physical_address;
+	int paddr;
 	pgdir = curproc->pgdir
-	pde_t *pgdir, *pgtab, *pde;
+
+	
+	pde_t *pde;
+	pde_t *pgdir;
+	pde_t *pde;
+	pde_t *pte;
+	pde_t *pgtab;
 
 	pde = &pgdir[PDX(virtual_address)];
 	if (*pde & PTE_P) {
@@ -245,6 +254,7 @@ addr_translate(char* virtual_address) {
 	physical_address=(char*)V2P(PTE_ADDR(*pte));
 
 	cprintf(" --PHYSICAL ADDRESS -- %d\n", physical_address);
+
 	return 0;
 }
 // Exit the current process.  Does not return.
