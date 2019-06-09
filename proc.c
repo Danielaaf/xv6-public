@@ -242,7 +242,7 @@ addr_translate(char* virtual_address) {
 
 	pte_t *pte;
 	pte = &pgtab[PTX(virtual_address)];
-	physical_address = (char*)V2P(PTE_ADDR(*pte));
+	physical_address=(char*)V2P(PTE_ADDR(*pte));
 
 	cprintf(" --PHYSICAL ADDRESS -- %d\n", physical_address);
 	return 0;
