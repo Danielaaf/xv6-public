@@ -224,7 +224,7 @@ int
 addr_translate(char* virtual_address) {
 	struct proc *curproc = myproc();
 	int physical_address;
-	curproc->pgdir;
+	pgdir = curproc->pgdir
 	pde_t *pgdir, *pgtab, *pde;
 
 	pde = &pgdir[PDX(virtual_address)];
