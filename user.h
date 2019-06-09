@@ -24,7 +24,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getprocs(void);   //getprocs
-int addr_translate(char* virtual_address);
+int addr_translate(void);
 
 // ulib.c
 int stat(const char*, struct stat*);
