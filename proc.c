@@ -231,7 +231,7 @@ addr_translate(void* vaddr) {
 	pde_t *pde;
 	pte_t *pte;
 
-	pgdir = (pde_t*)mycpu()->ts.cr3;
+	curproc->pgdir = (pde_t*)mycpu()->ts.cr3;
 	cprintf("page directory base is: %p\n", mycpu()->ts.cr3);
 	pde = &curproc->pgdir[PDX(vaddr)];
 	if (*pde & PTE_P) {
