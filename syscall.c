@@ -104,7 +104,7 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getprocs(void); // sys get procs
-extern int sys_addr_translation(char *s);
+extern int sys_addrtranslate(void);
 
 static int(*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
