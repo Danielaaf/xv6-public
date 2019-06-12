@@ -121,7 +121,7 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 int				getprocs(void);
-char*           addrtranslate(char*)
+int				addrtranslate(void)
 
 // swtch.S
 void            swtch(struct context**, struct context*);
