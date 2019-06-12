@@ -8,7 +8,7 @@
 #include "proc.h"
 
 char*
-sys_addrtranslate(char *s) {
+sys_addrtranslation(char *s) {
 	argstr(0, &s);
 	addrtranslate(s);
 	return s;
