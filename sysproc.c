@@ -8,7 +8,7 @@
 #include "proc.h"
 
 int
-sys_addr_translation(void) {
+sys_addr_translate(void) {
 	return addr_traslate();
 }
 
