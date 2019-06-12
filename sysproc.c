@@ -8,11 +8,11 @@
 #include "proc.h"
 
 
-char*
+int
 sys_addrtranslate(char* s) {
 	argstr(0, &s);
-	addrtranslate(s);
-	return s;
+	return addrtranslate(s);
+	
 }
 
 int
