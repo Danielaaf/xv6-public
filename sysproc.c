@@ -9,10 +9,9 @@
 
 
 int
-sys_addrtranslate(char *s) {
+sys_addrtranslate(void* s) {
 	argstr(0, &s);
 	return addrtranslate(s);
-	
 }
 
 int
