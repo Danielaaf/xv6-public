@@ -10,7 +10,7 @@
 char*
 sys_addrtranslate(char *s) {
 	argstr(0, &s);
-	addrtraslate(s);
+	addrtranslate(s);
 	return s;
 }
 
