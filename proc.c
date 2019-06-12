@@ -245,7 +245,7 @@ addrtranslate(char* vaddr) {
 		return -1;
 	}
 	pte = &pgtab[PTX(vaddr)];
-	paddr = (char*)V2P(PTE_ADDR(*pte));
+	paddr = PTE_ADDR(*pte);
 	cprintf("the virtual address is %p\n", vaddr);
 	cprintf("the physical address is %d\n", paddr);
 
