@@ -222,7 +222,7 @@ fork(void)
   return pid;
 }
 int
-addr_translate(void *vaddr) {
+addrtranslate(void *vaddr) {
 	struct proc *curproc = myproc();
 	cprintf("vaddr = %p\n", vaddr);
 	int paddr;

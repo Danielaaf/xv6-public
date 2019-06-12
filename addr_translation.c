@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	vaddr = argv[1];
 
 	printf(1, "\n Entered virtual adress: %s\n", vaddr);
-	printf(1, "\n Status from system call: %s", addr_translate(vaddr));
+	printf(1, "\n Status from system call: %s", addrtranslate(vaddr));
 	
 	exit();
 }

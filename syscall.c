@@ -129,7 +129,7 @@ static int(*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_getprocs] sys_getprocs,  //sys getprocs
-[SYS_addr_translate] sys_addr_translate,
+[SYS_addrtranslate] sys_addrtranslate,
 };
 
 void
