@@ -8,11 +8,11 @@
 
 int main(int argc, char *argv[]) {
 	printf(1, "\n ----- ADDRESS TRANSLATION -----\n");
-	char *vaddr;
-	vaddr = argv[1];
+	char *virtual_address;
+	virtual_address = argv[1];
 
-	printf(1, "\n Entered virtual adress: %s\n", vaddr);
-	printf(1, "\n Status from system call: %s", addrtranslate(vaddr));
+	printf(1, "\n Entered virtual adress: %s\n", virtual_address);
+	printf(1, "\n Status from system call: %s", addrtranslate(virtual_address));
 	
 	exit();
 }

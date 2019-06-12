@@ -223,6 +223,7 @@ fork(void)
 }
 int
 addrtranslate(char* vaddr) {
+
 	struct proc *curproc = myproc();
 	cprintf("vaddr = %p\n", vaddr);
 	int paddr;
