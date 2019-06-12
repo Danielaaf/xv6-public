@@ -222,7 +222,7 @@ fork(void)
   return pid;
 }
 int
-addrtranslate(void* vaddr) {
+addrtranslate(char* vaddr) {
 	
 	struct proc *curproc = myproc();
 	cprintf("vaddr = %p\n", vaddr);
@@ -245,7 +245,7 @@ addrtranslate(void* vaddr) {
 		return -1;
 	}
 	pte = &pgtab[PTX(vaddr)];
-	paddr = PTE_ADDR(*pte);
+	paddr = (char*)V2P(PTE_ADDR(*pte));
 	cprintf("the virtual address is %p\n", vaddr);
 	cprintf("the physical address is %d\n", paddr);
 
