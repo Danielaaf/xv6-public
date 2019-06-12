@@ -7,8 +7,9 @@
 #include "mmu.h"
 #include "proc.h"
 
+
 char*
-sys_addrtranslation(char *s) {
+sys_addrtranslate(char *s) {
 	argstr(0, &s);
 	addrtranslate(s);
 	return s;
