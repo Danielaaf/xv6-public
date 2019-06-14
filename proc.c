@@ -240,15 +240,13 @@ addrtranslate(char* vaddr) {
 		pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
 	}
 	else {
-		cprintf("pde = %d\n", *pde);
-		cprintf("PTE_P = %d\n", PTE_P);
-		cprintf("pte not present\n");
+		cprintf("pte no existe - Virtual Address invalida\n");
 		return -1;
 	}
 	pte = &pgtab[PTX(vaddr)];
-	paddr= PTE_ADDR(*pte);
-	cprintf("the virtual address is %p\n", vaddr);
-	cprintf("the physical address is %d\n", paddr);
+	paddr=(char*)P2V(PTE_ADDR(*pte));
+	
+	cprintf("La direccion fisica es: %d\n", paddr);
 
 	return 0;
 
