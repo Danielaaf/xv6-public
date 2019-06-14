@@ -228,7 +228,7 @@ addrtranslate(char* vaddr) {
 	cprintf("vaddr = %p\n", vaddr);
 	int paddr;
 //	pde_t *pgdir;
-	pde_t *pgtab;
+	pte_t *pgtab;
 	pde_t *pde;
 	pte_t *pte;
 
@@ -244,7 +244,7 @@ addrtranslate(char* vaddr) {
 		return -1;
 	}
 	pte = &pgtab[PTX(vaddr)];
-	paddr=(char*)P2V(PTE_ADDR(*pte));
+	paddr=(char*)P2V(PTE_ADDR(pte));
 	
 	cprintf("La direccion fisica es: %d\n", paddr);
 
