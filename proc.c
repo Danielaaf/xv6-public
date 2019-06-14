@@ -228,9 +228,10 @@ addrtranslate(char* vaddr) {
 	cprintf("vaddr = %p\n", vaddr);
 	int paddr;
 //	pde_t *pgdir;
-	pte_t *pgtab;
+	pde_t *pgtab;
 	pde_t *pde;
 	pte_t *pte;
+	pde_t *pgdir
 
 	curproc->pgdir = (pde_t*)mycpu()->ts.cr3;
 	cprintf("page directory base is: %p\n", mycpu()->ts.cr3);
@@ -245,7 +246,7 @@ addrtranslate(char* vaddr) {
 		return -1;
 	}
 	pte = &pgtab[PTX(vaddr)];
-	paddr = PTE_ADDR(*pte);
+	paddr=(char*)V2P(PTE_ADDR(*pte));
 	cprintf("the virtual address is %p\n", vaddr);
 	cprintf("the physical address is %d\n", paddr);
 
