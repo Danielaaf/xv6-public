@@ -244,7 +244,7 @@ addrtranslate(char* vaddr) {
 		return -1;
 	}
 	pte = &pgtab[PTX(vaddr)];
-	paddr=(char*)P2V(PTE_ADDR(pte));
+	paddr= PTE_ADDR(*pte);
 	
 	cprintf("La direccion fisica es: %d\n", paddr);
 
