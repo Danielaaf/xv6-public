@@ -10,7 +10,6 @@ int main(int argc, char *argv[]) {
 	printf(1, "\n ----- ADDRESS TRANSLATION -----\n");
 	if (argc < 2) {
 		printf(2, "Direccion virtual...\n");
-		exit();
 	}
 	
 	printf(1, "\n Status from system call: %s", addrtranslate(argv[1]));
